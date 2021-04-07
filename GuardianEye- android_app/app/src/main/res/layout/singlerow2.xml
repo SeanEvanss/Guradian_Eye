@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:elevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/titletext2"
+            android:text="This is a task title"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/locationtext2"
+            android:text="This is the task location"
+            android:textSize="25sp"
+            android:textColor="#000"
+            android:layout_below="@id/titletext2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptiontext2"
+            android:text="This is the task description"
+            android:textSize="25sp"
+            android:textColor="#000"
+            android:layout_below="@id/locationtext2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/feetext2"
+            android:text="This is the title"
+            android:textSize="25sp"
+            android:textColor="#000"
+            android:layout_below="@id/descriptiontext2"/>
+        <Button
+            android:id="@+id/volunnteerPersonalEndButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/feetext2"
+            android:text="End" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
