@@ -1,9 +1,11 @@
 package com.example.eagleeye;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -28,9 +30,6 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 public class ViewAcceptedTaskActivity extends AppCompatActivity {
-    private RecyclerView recview;
-    private Acceptedtaskadapter adapter;
-    private Button mVolunteerPersonal2BackBtn;
     private ArrayList<String[]> tasksInfo;
 
     @Override
@@ -61,12 +60,13 @@ public class ViewAcceptedTaskActivity extends AppCompatActivity {
 
             String current_button_ID= Integer.toString(i);
 
-            response.append(taskInfo.get(i)[0]);// Origin location
-            response.append(taskInfo.get(i)[1]);// Destination
+            response.append(taskInfo.get(i)[0]+"\n");// Origin location
+            response.append(taskInfo.get(i)[1]+"\n");// Destination
             response.append(taskInfo.get(i)[2]);// Fee
 
             Button curr_task= new Button(scrolllinearLayout.getContext());
 
+            curr_task.setSingleLine(false);
             curr_task.setText(response);
             curr_task.setTextSize(25);
             curr_task.setTag(i);
@@ -76,7 +76,26 @@ public class ViewAcceptedTaskActivity extends AppCompatActivity {
             curr_task.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getApplicationContext(), "Curr button "+current_button_ID, Toast.LENGTH_LONG).show();
+                    //Toast was for debuggng purposes
+                    //Toast.makeText(getApplicationContext(), "Curr button "+current_button_ID, Toast.LENGTH_LONG).show();
+
+                    new AlertDialog.Builder(view.getContext())
+                            .setTitle("Accept task ?")
+                            .setMessage("Are you sure you want to accept this task ?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    scrolllinearLayout.removeView(curr_task);
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
                 }
             });
             scrolllinearLayout.addView(curr_task);

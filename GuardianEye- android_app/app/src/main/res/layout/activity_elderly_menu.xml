@@ -36,30 +36,30 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="450dp"
         android:weightSum="2"
         android:layout_centerHorizontal="true"
-
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
 
         <Button
             android:id="@+id/elderlyPersonalBtn"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:background="@drawable/login_btn_background"
+            android:background="@drawable/register_btn_background"
             android:text="Request task"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/elderlyRideBtn"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/login_btn_background"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/register_btn_background"
             android:text="Book a ride"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/emergencyButton"

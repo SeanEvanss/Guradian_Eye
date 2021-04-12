@@ -1,7 +1,9 @@
 package com.example.eagleeye;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -48,7 +50,7 @@ public class VolunteerMenuActivity extends AppCompatActivity {
         mVolunteerRideBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (VolunteerMenuActivity.this, ViewAcceptedRideActivity.class);
+                Intent intent = new Intent (VolunteerMenuActivity.this, CreateRideActivity.class);
                 startActivity(intent);
             }
         });
@@ -93,5 +95,30 @@ public class VolunteerMenuActivity extends AppCompatActivity {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         int ipInt = wifiInfo.getIpAddress();
         return InetAddress.getByAddress(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ipInt).array()).getHostAddress();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(false){
+            super.onBackPressed();
+        }
+        else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Logout from account")
+                    .setMessage("Are you sure you want to logout ?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
     }
 }
