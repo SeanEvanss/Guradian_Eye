@@ -31,7 +31,6 @@
             android:name=".RideReportActivity"
             android:label="@string/title_activity_ride_report"
             android:theme="@style/Theme.EagleEye.NoActionBar" />
-        <activity android:name=".ViewUnacceptedRideActivity" />
         <activity android:name=".FareEstimateActivity" />
         <activity android:name=".CreateRideActivity" />
         <!--
@@ -48,10 +47,7 @@
 
         <activity android:name=".FallDetectorActivity" />
         <activity android:name=".TaskReportActivity" />
-        <activity android:name=".ViewUnacceptedEmergencyActivity" />
-        <activity android:name=".InputEmergencyLocationActivity" />
         <activity android:name=".ViewAcceptedTaskActivity" />
-        <activity android:name=".ViewUnacceptedTaskActivity" />
         <activity android:name=".CreateTaskActivity" />
         <activity android:name=".VolunteerMenuActivity" />
         <activity android:name=".ElderlyMenuActivity" />

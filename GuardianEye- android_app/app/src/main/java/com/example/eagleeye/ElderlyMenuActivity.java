@@ -133,7 +133,7 @@ public class ElderlyMenuActivity extends AppCompatActivity {
 
             }
         });
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 2000);
     }
 
     protected void trackSteps(){

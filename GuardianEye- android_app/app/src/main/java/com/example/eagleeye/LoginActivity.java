@@ -42,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rootLayout;
 
     //This is debugging value we use to store the user ID tag
-    protected int user_tag_ID= 0;
+    protected int user_tag_ID= 1;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -87,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void showLoginDialog() {
-        Log.i("SEAN", "showLoginDialog: HII");
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("LOGIN");
         dialog.setMessage("Please use email to login");

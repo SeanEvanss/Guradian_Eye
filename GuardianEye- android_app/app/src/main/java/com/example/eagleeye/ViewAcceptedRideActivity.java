@@ -25,12 +25,18 @@ public class ViewAcceptedRideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recview);
+        setContentView(R.layout.activity_view_rides);
 
         MyThread thread = new MyThread();
         thread.start();
 
+
+
     }
+
+
+
+
     public class MyThread extends Thread {
 
         public void run(){

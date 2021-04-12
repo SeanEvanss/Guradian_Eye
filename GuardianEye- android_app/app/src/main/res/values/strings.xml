@@ -16,7 +16,7 @@
     <string name="title_activity_ride_report">RideReportActivity</string>
     <string name="title_activity_view_accepted_ride">ViewAcceptedRideActivity</string>
 
-    <string name="api_url">http://10.27.50.205:5000/</string>
+    <string name="api_url">http://192.168.0.108:5000/</string>
     <string name="task_food">20002</string>
     <string name="task_groceries">20003</string>
 </resources>

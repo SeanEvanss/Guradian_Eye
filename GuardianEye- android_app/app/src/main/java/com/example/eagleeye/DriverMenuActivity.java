@@ -23,7 +23,7 @@ public class DriverMenuActivity extends AppCompatActivity {
         mDriverEmergencyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (DriverMenuActivity.this, ViewUnacceptedEmergencyActivity.class);
+                Intent intent = new Intent (DriverMenuActivity.this, ViewAcceptedEmergencyActivity.class);
                 startActivity(intent);
                 finish();
                 return;
@@ -32,7 +32,7 @@ public class DriverMenuActivity extends AppCompatActivity {
         mDriverRideBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (DriverMenuActivity.this, ViewUnacceptedRideActivity.class);
+                Intent intent = new Intent (DriverMenuActivity.this, ViewAcceptedRideActivity.class);
                 startActivity(intent);
                 finish();
                 return;

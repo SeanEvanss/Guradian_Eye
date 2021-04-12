@@ -120,22 +120,23 @@ public class MyGlobals {
                         try {
                             //Log.i(TAG, "onFailure: "+ response.body().string());
                             String JSONresponse= response.peekBody(2048).string();
-                            Toast.makeText(mContext, response.peekBody(2048).string(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, JSONresponse, Toast.LENGTH_LONG).show();
                             //mDebug.setText(response.body().string());
-                            Log.i(TAG, "run: success: "+response.peekBody(2048).string());
+                            Log.i(TAG, "run: success: "+JSONresponse);
 
-                                /*
+
                             JSONObject json = new JSONObject(JSONresponse);
+                                /*
                             String errorCode= json.getString("errorcode");
                             String requestID= json.getJSONObject("details").getString("id");
 
                             Log.i(TAG, "run: "+errorCode+" "+requestID);
 
                                  */
-                            acknowledgement("Ack call", "http://10.27.50.205:5000/"+ack+"69");
+                            acknowledgement("Ack call", "http://192.168.0.108:5000/"+ack+"69");
 
 
-                        } catch (IOException e) {
+                        } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
