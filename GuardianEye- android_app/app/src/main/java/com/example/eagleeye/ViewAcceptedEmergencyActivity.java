@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.eagleeye.Adapter.Acceptedemergencyadapter;
+import com.example.eagleeye.Model.MyGlobals;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,76 +25,24 @@ import java.util.ArrayList;
 
 public class ViewAcceptedEmergencyActivity extends AppCompatActivity {
     private ArrayList<String[]> emergenciesInfo;
+    protected LinearLayout scrolllinearLayout;
+
+    private MyGlobals mGlobals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_emergencies);
+        scrolllinearLayout=findViewById(R.id.scrollLinearView);
 
-
-        emergenciesInfo= new ArrayList<String[]>();
-
-        for(int i=0;i < 20; i++) {
-            String[] data = {"123 sad avenue", "John Walker no. "+Integer.toString(i)};
-            emergenciesInfo.add(data);
-        }
-
-        LinearLayout scrolllinearLayout=findViewById(R.id.scrollLinearView);
-        display(scrolllinearLayout, emergenciesInfo);
+        mGlobals= new MyGlobals(getApplicationContext(),ViewAcceptedEmergencyActivity.this);
 
         MyThread thread= new MyThread();
         thread.start();
 
-    }
+        emergenciesInfo= new ArrayList<String[]>();
 
-    protected void display(LinearLayout scrolllinearLayout, ArrayList<String[]> taskInfo){
-
-        StringBuilder response= new StringBuilder();
-        scrolllinearLayout.removeAllViews();
-
-        for(int i=0; i< (taskInfo.size());i++){
-
-
-            response.append(taskInfo.get(i)[0]+"\n");// Origin location
-            response.append(taskInfo.get(i)[1]);// Name
-
-            Button curr_task= new Button(scrolllinearLayout.getContext());
-
-            curr_task.setSingleLine(false);
-            curr_task.setText(response);
-            curr_task.setTextSize(25);
-            curr_task.setTag(i);
-            curr_task.setWidth(20);
-            curr_task.setGravity(Gravity.CENTER);
-
-            curr_task.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toast was for debuggng purposes
-                    //Toast.makeText(getApplicationContext(), "Curr button "+current_button_ID, Toast.LENGTH_LONG).show();
-
-                    new AlertDialog.Builder(view.getContext())
-                            .setTitle("Respond to emergency ?")
-                            .setMessage("Are you sure you want to respond to this emergency ?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    scrolllinearLayout.removeView(curr_task);
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .show();
-                }
-            });
-            scrolllinearLayout.addView(curr_task);
-            response.setLength(0);
-        }
+        //display(scrolllinearLayout, emergenciesInfo);
 
     }
 
@@ -111,10 +60,9 @@ public class ViewAcceptedEmergencyActivity extends AppCompatActivity {
         int port = args;
         String SERVER_IP = getLocalIpAddress();
 
-        System.out.println(SERVER_IP);
         Log.i("rec-msg", "acceptTask: IP:"+SERVER_IP);
 
-        SimpleSocketServer_old server = new SimpleSocketServer_old( port );
+        SimpleSocketServer server = new SimpleSocketServer( port, scrolllinearLayout, ViewAcceptedEmergencyActivity.this,0);
         server.startServer();
 
         // Automatically shutdown in 1 minute

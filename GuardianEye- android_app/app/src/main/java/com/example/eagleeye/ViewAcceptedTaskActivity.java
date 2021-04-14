@@ -23,14 +23,27 @@ import com.example.eagleeye.Model.ADLTask;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class ViewAcceptedTaskActivity extends AppCompatActivity {
     private ArrayList<String[]> tasksInfo;
+    LinearLayout scrolllinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,72 +51,11 @@ public class ViewAcceptedTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_tasks);
 
         tasksInfo= new ArrayList<String[]>();
-
-        for(int i=0;i < 30; i++) {
-            String[] data = {"123 maple road", "456 maple drive", "$"+Integer.toString(i)};
-            tasksInfo.add(data);
-        }
-
-        LinearLayout scrolllinearLayout=findViewById(R.id.scrollLinearView);
-        display(scrolllinearLayout, tasksInfo);
-
+        scrolllinearLayout=findViewById(R.id.scrollLinearView);
+        //display(scrolllinearLayout, tasksInfo);
         MyThread thread = new MyThread();
         thread.start();
     }
-
-    protected void display(LinearLayout scrolllinearLayout, ArrayList<String[]> taskInfo){
-
-        StringBuilder response= new StringBuilder();
-        scrolllinearLayout.removeAllViews();
-
-        for(int i=0; i< (taskInfo.size());i++){
-
-            String current_button_ID= Integer.toString(i);
-
-            response.append(taskInfo.get(i)[0]+"\n");// Origin location
-            response.append(taskInfo.get(i)[1]+"\n");// Destination
-            response.append(taskInfo.get(i)[2]);// Fee
-
-            Button curr_task= new Button(scrolllinearLayout.getContext());
-
-            curr_task.setSingleLine(false);
-            curr_task.setText(response);
-            curr_task.setTextSize(25);
-            curr_task.setTag(i);
-            curr_task.setWidth(20);
-            curr_task.setGravity(Gravity.CENTER);
-
-            curr_task.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toast was for debuggng purposes
-                    //Toast.makeText(getApplicationContext(), "Curr button "+current_button_ID, Toast.LENGTH_LONG).show();
-
-                    new AlertDialog.Builder(view.getContext())
-                            .setTitle("Accept task ?")
-                            .setMessage("Are you sure you want to accept this task ?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    scrolllinearLayout.removeView(curr_task);
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .show();
-                }
-            });
-            scrolllinearLayout.addView(curr_task);
-            response.setLength(0);
-        }
-
-    }
-
 
 
     public class MyThread extends Thread {
@@ -122,7 +74,7 @@ public class ViewAcceptedTaskActivity extends AppCompatActivity {
         System.out.println(SERVER_IP);
         Log.i("rec-msg", "acceptTask: IP:"+SERVER_IP);
 
-        SimpleSocketServer_old server = new SimpleSocketServer_old( port );
+        SimpleSocketServer server = new SimpleSocketServer( port, scrolllinearLayout, ViewAcceptedTaskActivity.this,1 );
         server.startServer();
 
         // Automatically shutdown in 1 minute
@@ -146,5 +98,58 @@ public class ViewAcceptedTaskActivity extends AppCompatActivity {
         int ipInt = wifiInfo.getIpAddress();
         return InetAddress.getByAddress(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ipInt).array()).getHostAddress();
     }
+    /*
+    public void postRequestVolunteer(String message, String URL) {
+
+        RequestBody requestBody = buildRequestBody(message);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request
+                .Builder()
+                .post(requestBody)
+                .url(URL)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+
+                Toast.makeText(getApplicationContext(), "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.i("SEAN", "run: failed: "+ e.getMessage());
+                call.cancel();
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+                try {
+                    //Log.i(TAG, "onFailure: "+ response.body().string());
+                    String JSONresponse= response.peekBody(2048).string();
+
+
+
+                    Log.i("SEAN", "run: ack success: "+JSONresponse);
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+    }
+    public RequestBody buildRequestBody(String msg){
+        String postBodyString;
+        MediaType mediaType;
+        RequestBody requestBody;
+
+        postBodyString= msg;
+        mediaType = MediaType.parse("text/plain");
+        requestBody = RequestBody.create(mediaType, postBodyString);
+        return requestBody;
+    }
+    */
+
 
 }

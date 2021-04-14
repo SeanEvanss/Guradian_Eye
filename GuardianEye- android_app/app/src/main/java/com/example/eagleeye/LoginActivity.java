@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private RelativeLayout rootLayout;
 
     //This is debugging value we use to store the user ID tag
+    //0 for elderly, 1 for volunteer
     protected int user_tag_ID= 1;
 
     @Override

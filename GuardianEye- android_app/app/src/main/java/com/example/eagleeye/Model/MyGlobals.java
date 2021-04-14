@@ -26,7 +26,7 @@ public class MyGlobals {
     Context mContext;
     Activity currentActivity;
     String TAG= "Global function";
-    String ack= "/acknowledge?request=";
+    String ack= "acknowledge?request=";
 
     public MyGlobals(Context context,Activity activity){
         this.mContext= context;
@@ -59,7 +59,7 @@ public class MyGlobals {
                 currentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mContext, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(mContext, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.i(TAG, "run: failed: "+ e.getMessage());
                         call.cancel();
                     }
@@ -73,12 +73,12 @@ public class MyGlobals {
                     public void run() {
                         try {
                             //Log.i(TAG, "onFailure: "+ response.body().string());
-                            Toast.makeText(mContext, response.peekBody(2048).string(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(mContext, response.peekBody(2048).string(), Toast.LENGTH_LONG).show();
                             //mDebug.setText(response.body().string());
-                            Log.i(TAG, "run: ack success: "+response.peekBody(2048).string());
+                            Log.i(TAG, "run: ack successfully sent: ");
 
 
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -90,6 +90,10 @@ public class MyGlobals {
     }
 
     public void postRequest(String message, String URL) {
+        postRequest(message, URL, null);
+    }
+
+    public void postRequest(String message, String URL, OnResponseActionCallBack cb) {
         RequestBody requestBody = buildRequestBody(message);
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request
@@ -109,7 +113,6 @@ public class MyGlobals {
                         call.cancel();
                     }
                 });
-
             }
 
             @Override
@@ -118,32 +121,33 @@ public class MyGlobals {
                     @Override
                     public void run() {
                         try {
-                            //Log.i(TAG, "onFailure: "+ response.body().string());
-                            String JSONresponse= response.peekBody(2048).string();
-                            Toast.makeText(mContext, JSONresponse, Toast.LENGTH_LONG).show();
-                            //mDebug.setText(response.body().string());
-                            Log.i(TAG, "run: success: "+JSONresponse);
+                            if (cb != null) {
+                                String JSONresponse= response.body().string();
+                                cb.doAction(JSONresponse);
+                            }
+                            else{
+                                String JSONresponse= response.body().string();
+                                //Toast.makeText(mContext, JSONresponse, Toast.LENGTH_LONG).show();
+                                //mDebug.setText(response.body().string());
+                                Log.i(TAG, "run: ack success: "+JSONresponse);
 
+                                JSONObject json = new JSONObject(JSONresponse);
+                                String request_ID= json.getJSONObject("result").getJSONObject("details").getString("id");
+                                Log.i(TAG, "JSON ack: "+request_ID);
 
-                            JSONObject json = new JSONObject(JSONresponse);
-                                /*
-                            String errorCode= json.getString("errorcode");
-                            String requestID= json.getJSONObject("details").getString("id");
-
-                            Log.i(TAG, "run: "+errorCode+" "+requestID);
-
-                                 */
-                            acknowledgement("Ack call", "http://192.168.0.108:5000/"+ack+"69");
-
-
+                                acknowledgement("Ack call", mContext.getString(R.string.api_url)+ack+request_ID);
+                            }
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-
-
             }
         });
     }
+
+    public interface OnResponseActionCallBack{
+        public void doAction(String data);
+    }
+
 }

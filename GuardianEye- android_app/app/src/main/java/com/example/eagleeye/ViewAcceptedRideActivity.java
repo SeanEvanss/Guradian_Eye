@@ -27,8 +27,8 @@ public class ViewAcceptedRideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_rides);
 
-        MyThread thread = new MyThread();
-        thread.start();
+        //MyThread thread = new MyThread();
+        //thread.start();
 
 
 
@@ -36,7 +36,7 @@ public class ViewAcceptedRideActivity extends AppCompatActivity {
 
 
 
-
+/*
     public class MyThread extends Thread {
 
         public void run(){
@@ -53,7 +53,7 @@ public class ViewAcceptedRideActivity extends AppCompatActivity {
         System.out.println(SERVER_IP);
         Log.i("rec-msg", "acceptTask: IP:"+SERVER_IP);
 
-        SimpleSocketServer_old server = new SimpleSocketServer_old( port );
+        SimpleSocketServer server = new SimpleSocketServer( port );
         server.startServer();
 
         // Automatically shutdown in 1 minute
@@ -77,4 +77,6 @@ public class ViewAcceptedRideActivity extends AppCompatActivity {
         int ipInt = wifiInfo.getIpAddress();
         return InetAddress.getByAddress(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ipInt).array()).getHostAddress();
     }
+
+ */
 }
