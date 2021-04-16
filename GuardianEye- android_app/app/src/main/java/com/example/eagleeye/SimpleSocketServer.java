@@ -47,8 +47,6 @@ public class SimpleSocketServer extends Thread
     private int requestType; // 0 for emergencies, 1 for tasks, 2 for rides
 
     private ArrayList<String[]> JSONInfo;
-    private String volunteerFound= "volunteerfound?id=0&request=21";
-
     public SimpleSocketServer(int port, LinearLayout menu, Activity act, int requestType )
     {
         this.port = port;
@@ -203,6 +201,7 @@ class RequestHandler extends Thread {
 
     @Override
     public void run() {
+
         try {
             System.out.println("Received a connection");
             //We do a check for the current tasks/emergencies when we load the socket
@@ -289,6 +288,7 @@ class RequestHandler extends Thread {
                 e.printStackTrace();
             }
 
+            System.out.println("start of closing");
 
             // Close our connection
             in.close();
@@ -301,6 +301,7 @@ class RequestHandler extends Thread {
             e.printStackTrace();
 
         }
+
     }
 }
     protected void display(LinearLayout scrolllinearLayout, ArrayList<String[]> taskInfo){

@@ -117,13 +117,18 @@ public class MyGlobals {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
+                if (cb != null) {
+                    String JSONresponse= response.body().string();
+                    cb.doAction(JSONresponse);
+                }
                 currentActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             if (cb != null) {
-                                String JSONresponse= response.body().string();
-                                cb.doAction(JSONresponse);
+                                //String JSONresponse= response.body().string();
+                                //cb.doAction(JSONresponse);
+
                             }
                             else{
                                 String JSONresponse= response.body().string();
